@@ -1,0 +1,7 @@
+apiVersion: cloudvpn.example.com/v1alpha1
+kind: CloudVPN
+metadata:
+  name: example-cloudvpn
+spec:
+  # Add fields here
+  size: 3
