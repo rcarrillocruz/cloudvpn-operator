@@ -16,8 +16,8 @@ spec:
       containers:
         - name: cloudvpn-operator
           # Replace this with the built image name
-          image: "{{ REPLACE_IMAGE }}"
-          imagePullPolicy: "{{ pull_policy|default('Always') }}"
+          image: "cloudvpn-operator:v0.0.1"
+          imagePullPolicy: Never
           env:
             - name: WATCH_NAMESPACE
               valueFrom:

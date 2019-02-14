@@ -1,0 +1,38 @@
+- hosts: localhost
+  connection: local
+  gather_facts: no
+
+  tasks:
+    - name: Write responder SSH private key file from K8s secret
+      copy:
+        content: "{{ lookup('k8s', kind='Secret', namespace=responder_ssh_private_key.namespace, resource_name=responder_ssh_private_key.name).data.contents | b64decode }}"
+        dest: /opt/ansible/responder_ssh_private_key
+        mode: 0400
+
+    - name: Write initiator SSH private key file from K8s secret
+      copy:
+        content: "{{ lookup('k8s', kind='Secret', namespace=initiator_ssh_private_key.namespace, resource_name=initiator_ssh_private_key.name).data.contents | b64decode }}"
+        dest: /opt/ansible/initiator_ssh_private_key
+        mode: 0400
+
+    - name: Set cloud_vpn_responder_ssh_private_key_file variable
+      set_fact:
+        cloud_vpn_responder_ssh_private_key_file: /opt/ansible/responder_ssh_private_key
+
+    - name: Set cloud_vpn_initiator_ssh_private_key_file variable
+      set_fact:
+        cloud_vpn_initiator_ssh_private_key_file: /opt/ansible/initiator_ssh_private_key
+
+    - name: Write vars file from K8s secret
+      copy:
+        content: "{{ lookup('k8s', kind='Secret', namespace=vars_file.namespace, resource_name=vars_file.name).data.contents | b64decode }}"
+        dest: /opt/ansible/vars_file
+
+    - name: Include role vars file
+      include_vars:
+        file:  /opt/ansible/vars_file
+      no_log: true
+
+    - name: Import cloud_vpn role
+      import_role:
+        name: cloud_vpn

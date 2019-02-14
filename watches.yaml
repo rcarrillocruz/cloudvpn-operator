@@ -2,4 +2,5 @@
 - version: v1alpha1
   group: cloudvpn.example.com
   kind: CloudVPN
-  role: /opt/ansible/roles/cloudvpn
+
+  playbook: /opt/ansible/playbook.yaml

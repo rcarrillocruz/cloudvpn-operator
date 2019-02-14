@@ -3,5 +3,12 @@ kind: CloudVPN
 metadata:
   name: example-cloudvpn
 spec:
-  # Add fields here
-  size: 3
+  vars_file:
+    name: cloud-vpn-vars-file
+    namespace: myproject
+  initiator_ssh_private_key:
+    name: cloud-vpn-initiator-ssh-private-key
+    namespace: myproject
+  responder_ssh_private_key:
+    name: cloud-vpn-responder-ssh-private-key
+    namespace: myproject
